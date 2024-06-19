@@ -89,3 +89,7 @@ Once it’s completed, the results in S3 will look like the following:
 `Amazon S3 → Buckets → myS3bucket → prod.mycollection → a63d329a-964e-45d3-a314-30ca0f43ed6a_kBotPiX_0 → Documents`
 
 The “a63d329a-964e-45d3-a314-30ca0f43ed6a_kBotPiX_0” is a randomly generated query ID GUID from Rockset that identifies your query with the exported results in S3.
+
+# Code
+
+[Python program](export_RSCollection_to_AWSS3.py)
