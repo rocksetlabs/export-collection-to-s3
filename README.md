@@ -86,7 +86,7 @@ python3 export_RSCollection_to_AWSS3.py \
 - `-param_RS_AWSEXTID_credentials (optional)`: Used in conjunction with param_RS_AWSROLE_credentials, Any external ID that is the AWS IAM Role
 - `—param_RS_integrationname (optional)`: Either param_RS_integrationname or param_RS_AWSROLE_credentials must be provided.
 - `—param_AWS_S3outputchunksize` (optional): 1000 is the default if not specified
-- `—param_RS_querysynchronous` (optional): TRUE; however, FALSE is the default if you provide nothing; that is to say that an asynchronous query is the default
+- `—param_RS_querysynchronous` (optional): FALSE is the default if you provide nothing; that is to say that an asynchronous query is the default and your script will return you a query_id immediately while the query is still running at Rockset in the background; but if you provide TRUE your query will run synchronously and block until success or failure
 - `—param_RS_adv_filtercollection_byID` (optional): This is advanced feature and only accepts an integer of 1 or 2. If you have a really large dataset, you might need to filter the collection to export it by _id using one of the 16 hex values starting the GUID. If you select 1, then the output file will contain 16 queries that will run sequentially. If you select 2, then the output file will contain 256 queries (16^2) that will run sequentially. Keep this in mind if you are running against large datasets.
 
 # Output
