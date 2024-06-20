@@ -47,7 +47,21 @@ Open Terminal, navigate to the directory where `export_RSCollection_to_AWSS3.py`
 
 ### Basic Usage
 
-This program execution will create an output file named `export_mycollection_script.sh`:
+This program execution will create an output file named `export_mycollection_script.sh`.
+
+Example: This example uses a read/write Rockset S3 Integration name (you can obtain this from the Rockset Console UI in the Integrations tab). You can use an existing valid one or create a new one in the UI and use this integration name here. Creating a new integration will require you to create the appropriate AWS IAM Policy and Role. This is typically our recommended option.
+```shell
+python3 export_RSCollection_to_AWSS3.py \
+    --output_file export_mycollection_script.sh \
+    --param_RS_region usw2a1 \
+    --param_RS_apikey myRSAPIKey \
+    --param_RS_wsdotcollectionname prod.mycollection \
+    --param_RS_outputformat JSON \
+    --param_AWS_S3bucketuri s3://myS3bucket \
+    --param_RS_integrationname myRS_S3_IntegrationName
+```
+
+Example: This example does not use a Rockset Integration name, but rather a AWS IAM Role and AWS External ID. You can use those values directly. This can be useful if you do not want to use an existing Rockset S3 integration or create a new Rockset S3 integration. In this case, it assumes you have already setup an IAM Role and Policy that has read/write access. You can use the Rockset S3 setup wizard to help you create that Policy and Role and stop short of creating the integration, but the easiest path is to the example above.
 ```shell
 python3 export_RSCollection_to_AWSS3.py \
     --output_file export_mycollection_script.sh \
@@ -57,6 +71,7 @@ python3 export_RSCollection_to_AWSS3.py \
     --param_RS_outputformat JSON \
     --param_AWS_S3bucketuri s3://myS3bucket \
     --param_RS_AWSROLE_credentials myIAMroleARN \
+    --param_RS_AWSEXTID_credentials myExternalID
 ```
 
 ### Command Line Arguments
@@ -68,6 +83,7 @@ python3 export_RSCollection_to_AWSS3.py \
 - `—param_RS_outputformat` (required): JSON or PARQUET
 - `—param_AWS_S3bucketuri` (required): Your S3 bucket uri
 - `—param_RS_AWSROLE_credentials (optional)`: Either param_RS_integrationname or param_RS_AWSROLE_credentials must be provided.
+- `-param_RS_AWSEXTID_credentials (optional)`: Used in conjunction with param_RS_AWSROLE_credentials, Any external ID that is the AWS IAM Role
 - `—param_RS_integrationname (optional)`: Either param_RS_integrationname or param_RS_AWSROLE_credentials must be provided.
 - `—param_AWS_S3outputchunksize` (optional): 1000 is the default if not specified
 - `—param_RS_querysynchronous` (optional): TRUE; however, FALSE is the default if you provide nothing; that is to say that an asynchronous query is the default
