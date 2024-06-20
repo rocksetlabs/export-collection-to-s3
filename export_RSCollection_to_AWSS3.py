@@ -7,7 +7,7 @@ def create_or_overwrite_file(output_file, content):
 
 def generate_RS_export_script(param_RS_region, param_RS_apikey, param_RS_wsdotcollectionname, param_RS_outputformat,
                               param_RS_integrationname, param_RS_AWSROLE_credentials, param_AWS_S3bucketuri, 
-                              param_AWS_S3outputchunksize, param_RS_querysynchronous, param_RS_adv_filtercollection_byID):
+                              param_AWS_S3outputchunksize, param_RS_querysynchronous, param_RS_adv_filtercollection_byID, param_RS_AWSEXTID_credentials):
     # Prepare the hex characters for filtering
     hex_chars = '0123456789abcdef'
     
@@ -20,7 +20,7 @@ def generate_RS_export_script(param_RS_region, param_RS_apikey, param_RS_wsdotco
     if param_RS_AWSROLE_credentials:
         base_query += (
             f"CREDENTIALS=(AWS_ROLE='{param_RS_AWSROLE_credentials}', "
-            f"AWS_EXTERNAL_ID='2a97516c354b68848cdbd8f54a226a0a55b21ed138e207ad6c5cbb9c00aa5aea') "
+            f"AWS_EXTERNAL_ID='{param_RS_AWSEXTID_credentials}') "
         )
     else:
         base_query += f"INTEGRATION = '{param_RS_integrationname}' "
@@ -80,6 +80,7 @@ def main():
     parser.add_argument('--param_RS_outputformat', type=str, choices=['JSON', 'PARQUET'], required=True, help="Output format (JSON or PARQUET).")  # Required
     parser.add_argument('--param_RS_integrationname', type=str, help="Rockset integration name.")  # Optional
     parser.add_argument('--param_RS_AWSROLE_credentials', type=str, help="Rockset AWS role credentials.")  # Optional
+    parser.add_argument('--param_RS_AWSEXTID_credentials', type=str, help="Any external ID that is the AWS IAM Role")  # Optional
     parser.add_argument('--param_AWS_S3bucketuri', type=str, required=True, help="AWS S3 bucket URI.")  # Required
     parser.add_argument('--param_AWS_S3outputchunksize', type=str, help="AWS S3 output chunk size.", nargs='?', default=None)  # Optional
     parser.add_argument('--param_RS_querysynchronous', type=str, help="Run query synchronously if TRUE.", nargs='?', default=None)  # Optional
@@ -94,7 +95,7 @@ def main():
     # Generate the content
     content = generate_RS_export_script(
         args.param_RS_region, args.param_RS_apikey, args.param_RS_wsdotcollectionname, args.param_RS_outputformat,
-        args.param_RS_integrationname, args.param_RS_AWSROLE_credentials, args.param_AWS_S3bucketuri, args.param_AWS_S3outputchunksize, args.param_RS_querysynchronous, args.param_RS_adv_filtercollection_byID
+        args.param_RS_integrationname, args.param_RS_AWSROLE_credentials, args.param_AWS_S3bucketuri, args.param_AWS_S3outputchunksize, args.param_RS_querysynchronous, args.param_RS_adv_filtercollection_byID, args.param_RS_AWSEXTID_credentials
     )
     
     # Write the content to the file
